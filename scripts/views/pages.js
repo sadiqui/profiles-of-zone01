@@ -10,12 +10,12 @@ export const renderLoginPage = () => {
     <div class="login-container">
         <form class="login-card" id="login-form">
             <h1>Login</h1>
-            <input type="text" id="username" placeholder="username or email" required/>
-            <input type="password" id="password" placeholder="password" required/>
+            <input type="text" id="username" placeholder="Username or email" required/>
+            <input type="password" id="password" placeholder="Password" required/>
             <span class="error" id="login-error"></span>
             <button id="login-button" class="btn">Login <i class="fa-solid fa-right-to-bracket"></i></button>
         </form>
-    </div>`
+    </div>`;
 
     document.body.appendChild(container);
 
@@ -50,21 +50,21 @@ export const renderProfilePage = (user) => {
         <div class="profile-header">
             <div class="user-greeting">
                 <h1>Welcome back, <span class="user-name">${user.firstName} ${user.lastName}</span>!</h1>
-                <p>Here's your dashboard overview.</p>
+                <p>Here's your dashboard overview</p>
             </div>
             <button id="logout-button" class="btn logout-btn">
                 <i class="fa-solid fa-right-from-bracket"></i> Logout
             </button>
         </div>
         <div class="profile-container">
-            <div id="audits-info"></div>
-            <div class="level">
-                <div id="level-info"></div>
-                <div id="last-transactions-info"></div>
-            </div>
+        <div class="level">
+        <div id="level-info" class="dashboard-card"></div>
+        <div id="last-transactions-info" class="dashboard-card"></div>
+        </div>
             <div id="transaction-info"></div>
-            <div id="transactions-chart"></div>
-            <div id="skills-chart"></div>
+            <div id="skills-chart" class="dashboard-card"></div>
+            <div id="transactions-chart" class="dashboard-card"></div>
+            <div id="audits-info" class="dashboard-card"></div>
         </div>
     </div>`;
 

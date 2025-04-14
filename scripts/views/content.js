@@ -33,8 +33,8 @@ export const renderLastTransComponent = async () => {
     // Render audit info
     const container = document.getElementById("last-transactions-info");
     container.innerHTML = `
-    <div class="chart-border"></div>
-    <h2 class="level-title">Last three transactions</h2>
+    <div class="card-header"></div>
+    <h2 class="card-title">Recent Transactions</h2>
     <div class="last-transactions-info-container">
         ${data.map(transaction => /*html*/`
             <div class="transaction-item">
@@ -77,11 +77,11 @@ export const renderLevelComponenet = async () => {
     // Render audit info
     const container = document.getElementById("level-info");
     container.innerHTML = `
-        <div class="chart-border"></div>
-        <h2 class="level-title">Your current Level</h2>
-        <div class="level-info-container">
-            <span>${data}</span>
-        </div>
+    <div class="card-header"></div>
+    <h2 class="card-title">Your Level</h2>
+    <div class="level-info-container">
+        <span>${data}</span>
+    </div>
     `;
 }
 
@@ -121,8 +121,8 @@ export const renderAuditsInfo = async () => {
     // Render audit info
     const container = document.getElementById("audits-info");
     container.innerHTML = /*html*/ `
-    <div class="chart-border"></div>
-    <h2 class="audits-title">Your Audit Statistics</h2>
+    <div class="card-header"></div>
+    <h2 class="card-title">Your Audit Statistics</h2>
     <div class="audits-grid">
         <div class="audit-card">
             <span class="audit-number">${(data.auditRatio).toFixed(1)}</span>
@@ -133,11 +133,11 @@ export const renderAuditsInfo = async () => {
             <span class="audit-label">Total Audits</span>
         </div>
         <div class="audit-card">
-            <span class="audit-number" style="color:green;">${(succeededPercentage).toFixed(1)} %</span>
+            <span class="audit-number success-value">${(succeededPercentage).toFixed(1)} %</span>
             <span class="audit-label">Success Rate</span>
         </div>
         <div class="audit-card">
-            <span class="audit-number" style="color:red;">${(failedPercentage).toFixed(1)} %</span>
+            <span class="audit-number danger-value">${(failedPercentage).toFixed(1)} %</span>
             <span class="audit-label">Fail Rate</span>
         </div>
     </div>

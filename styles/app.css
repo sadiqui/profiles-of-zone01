@@ -1,55 +1,83 @@
 /*******************************************************
-                      All-app Style
+            All-app Style - Modern Edition
 ********************************************************/
 
-@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --bg-color: rgb(26, 25, 28);
-    --bg-color-light: rgb(39, 37, 41);
-    --primary-color: rgb(170, 130, 0);
-    --text-color: white;
-    --text-color-secondary: rgb(187, 187, 187);
-    --text-color-dark: rgb(26, 25, 28);
-    --border-color: rgb(255, 255, 255);
-    --transition: ease 0.2s
+    --bg-color: #0f172a;
+    --bg-color-light: #1e293b;
+    --primary-color: #6366f1;
+    --primary-color-dark: #4f46e5;
+    --secondary-color: #10b981;
+    --accent-color: #f97316;
+    --danger-color: #ef4444;
+    --success-color: #22c55e;
+    --text-color: #f8fafc;
+    --text-color-secondary: #94a3b8;
+    --text-color-dark: #1e293b;
+    --border-color: rgba(148, 163, 184, 0.2);
+    --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --container-padding: 1.5rem;
+    --card-radius: 12px;
+    --gradient-primary: linear-gradient(135deg, #6366f1, #8b5cf6);
+    --gradient-accent: linear-gradient(135deg, #f97316, #f43f5e);
 }
 
 * {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
 
 body {
-    font-family: "Alegreya Sans", serif;
+    font-family: "Inter", sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
-    transition: var( --transition);
+    transition: var(--transition);
+    line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    letter-spacing: -0.025em;
 }
 
 .btn {
-    background-color: var(--primary-color);
+    background: var(--gradient-primary);
     outline: none;
     border: none;
     color: var(--text-color);
-    padding: 10px 20px;
-    font-size: large;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    border-radius: 10px;
+    border-radius: 8px;
     cursor: pointer;
     transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2);
 }
 
 .btn:hover {
-    box-shadow: var(--primary-color) 1px 1px 7px;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+}
+
+.btn:active {
+    transform: translateY(0);
 }
 
 .error {
     display: inline-block;
     min-height: 25px;
-    color: red;
-    font-weight: bold;
+    color: var(--danger-color);
+    font-weight: 500;
     margin-top: 10px;
+    font-size: 0.875rem;
 }
 
 #no-script {
@@ -60,25 +88,25 @@ body {
     height: 100vh;
 }
 
-#no-script>div {
+#no-script > div {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     gap: 20px;
-    color: black;
+    color: var(--text-color-dark);
     background-color: white;
-    border-radius: 20px;
+    border-radius: var(--card-radius);
     width: 60%;
     padding: 30px;
+    box-shadow: var(--card-shadow);
 }
 
-#no-script>div p {
+#no-script > div p {
     font-size: 15px;
     display: inline-block;
     width: 100%;
     text-align: center;
-
 }
 
 /*******************************************************
@@ -92,6 +120,7 @@ body {
     width: 100%;
     min-height: 100vh;
     padding: var(--container-padding);
+    background: var(--bg-color);
 }
 
 .login-card {
@@ -99,27 +128,52 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 24px;
     width: min(500px, 90%);
-    padding: clamp(15px, 3vw, 20px);
-    border-radius: 10px;
+    padding: 2.5rem 2rem;
+    border-radius: var(--card-radius);
     background-color: var(--bg-color-light);
-    border: solid 2px var(--border-color);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+}
+
+.login-card h1 {
+    font-size: 2rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.login-card h1::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background: var(--gradient-primary);
+    border-radius: 2px;
 }
 
 .login-card input {
     width: 100%;
-    max-width: 350px;
-    padding: 10px;
-    border-radius: 5px;
-    border: 2px transparent solid;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: rgba(255, 255, 255, 0.05);
     outline: none;
-    font-size: clamp(0.875rem, 2vw, 1rem);
-    font-weight: 600;
-    color: var(--text-color-dark);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+.login-card input::placeholder {
+    color: var(--text-color-secondary);
 }
 
 .login-card input:focus {
-    border: var(--primary-color) solid 2px;
-    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
 }

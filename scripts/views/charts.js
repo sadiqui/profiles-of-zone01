@@ -9,35 +9,46 @@ import { createSvgElement, drawAxes, drawGridlines } from "../logic/helpers.js";
 
 export const renderTransactionsChart = async () => {
     const token = localStorage.getItem("JWT");
-    const name = "Module";
-
-    const data = await getTransactionsData(name, token);
+    const data = await getTransactionsData("Module", token);
     if (!data) return;
 
     const { startAt, endAt, transactions } = data;
 
     const container = document.getElementById("transactions-chart");
     container.innerHTML = `
-        <div class="chart-border"></div>
-        <div class="transactions-chart-info">
-            <h2 class="event-name">${name}</h2>
-            <span class="event-date">${formatDate(startAt)} -> ${formatDate(endAt)}</span>
-        </div>
+    <div class="card-header"></div>
+    <div class="chart-info">
+        <h2 class="event-name">Progress Timeline</h2>
+        <span class="event-date">${formatDate(startAt)} → ${formatDate(endAt)}</span>
+    </div>
     `;
 
     const width = Math.min(900, container.clientWidth);
     const height = width * 0.5;
     const padding = 50;
 
-    const axisColor = getComputedStyle(document.documentElement).getPropertyValue("--text-color");
+    // Get theme colors from CSS variables
+    const axisColor = getComputedStyle(document.documentElement).getPropertyValue("--text-color-secondary");
     const lineColor = getComputedStyle(document.documentElement).getPropertyValue("--primary-color");
-    const pointColor = lineColor;
+    const bgColor = getComputedStyle(document.documentElement).getPropertyValue("--bg-color-light");
 
     const svg = createSvgElement("svg", {
         width,
         height,
         viewBox: `0 0 ${width} ${height}`,
     });
+
+    // Add subtle grid background for better visual appeal
+    const bgRect = createSvgElement("rect", {
+        x: padding,
+        y: padding,
+        width: width - 2 * padding,
+        height: height - 2 * padding,
+        fill: "rgba(255, 255, 255, 0.02)",
+        rx: "4",
+        ry: "4"
+    });
+    svg.appendChild(bgRect);
 
     const dates = [new Date(startAt), ...transactions.map((t) => new Date(t.createdAt))];
     const maxDate = Math.max(...dates.map((date) => date.getTime()));
@@ -56,48 +67,26 @@ export const renderTransactionsChart = async () => {
         xScale: (date) => (date - minDate) / (maxDate - minDate) * (width - 2 * padding) + padding,
         yScale: (amount) => height - padding - (amount - minAmount) / (maxAmount - minAmount) * (height - 2 * padding),
     };    
-    
 
     drawAxes(svg, width, height, padding, axisColor);
     drawGridlines(svg, width, height, padding, axisColor, maxAmount, minAmount, 5, "KB");
-    plotDataPoints(svg, transactions, sumAmounts, scales, { lineColor, pointColor }, startAt, height, padding);
+    plotDataPoints(svg, transactions, sumAmounts, scales, { lineColor, axisColor, bgColor }, startAt, height, padding);
+
+    // Add chart title with subtle styling
+    const title = createSvgElement("text", {
+        x: width / 2,
+        y: 20,
+        "text-anchor": "middle",
+        "font-family": "Inter, sans-serif",
+        "font-size": "14",
+        "font-weight": "600",
+        fill: axisColor,
+        opacity: "0.8"
+    });
+    title.textContent = "Progress Timeline";
+    svg.appendChild(title);
 
     container.appendChild(svg);
-};
-
-
-const plotDataPoints = (svg, transactions, sumAmounts, scales, colors, startAt, height, padding) => {
-    let previousPoint = { x: scales.xScale(new Date(startAt).getTime()), y: height - padding };
-
-    transactions.forEach((transaction, index) => {
-        const x = scales.xScale(new Date(transaction.createdAt).getTime());
-        const y = scales.yScale(sumAmounts[index + 1]);
-
-        // Draw line from previous point
-        const line = createSvgElement("line", {
-            x1: previousPoint.x,
-            y1: previousPoint.y,
-            x2: x,
-            y2: y,
-            stroke: colors.lineColor,
-            "stroke-width": "1",
-        });
-        svg.appendChild(line);
-
-        // Draw point
-        const circle = createSvgElement("circle", {
-            cx: x,
-            cy: y,
-            r: 3,
-            fill: colors.pointColor,
-        });
-        svg.appendChild(circle);
-
-        // Add hover event to show transaction info
-        addHoverEvent(circle, transaction, x, y);
-
-        previousPoint = { x, y };
-    });
 };
 
 const getTransactionsData = async (name, token) => {
@@ -116,6 +105,120 @@ const getTransactionsData = async (name, token) => {
     }
 };
 
+const plotDataPoints = (svg, transactions, sumAmounts, scales, colors, startAt, height, padding) => {
+    // Create a group for the graph elements
+    const graphGroup = createSvgElement("g", { class: "graph-data" });
+    
+    // Create gradient for area under the curve
+    const defs = svg.querySelector("defs") || createSvgElement("defs", {});
+    const gradient = createSvgElement("linearGradient", {
+        id: "areaGradient",
+        x1: "0%",
+        y1: "0%",
+        x2: "0%",
+        y2: "100%"
+    });
+    
+    const stop1 = createSvgElement("stop", {
+        offset: "0%",
+        "stop-color": colors.lineColor,
+        "stop-opacity": "0.3"
+    });
+    
+    const stop2 = createSvgElement("stop", {
+        offset: "100%",
+        "stop-color": colors.lineColor,
+        "stop-opacity": "0.05"
+    });
+    
+    gradient.appendChild(stop1);
+    gradient.appendChild(stop2);
+    defs.appendChild(gradient);
+    svg.appendChild(defs);
+
+    // Create path for line
+    let pathD = `M ${scales.xScale(new Date(startAt).getTime())} ${height - padding}`;
+    let areaPathD = pathD;
+    
+    // Create and add area under curve
+    const areaPath = createSvgElement("path", {
+        d: areaPathD,
+        fill: "url(#areaGradient)",
+        "fill-opacity": "0.7",
+        class: "area-path"
+    });
+    graphGroup.appendChild(areaPath);
+    
+    // Add points data
+    let previousPoint = { x: scales.xScale(new Date(startAt).getTime()), y: height - padding };
+    
+    transactions.forEach((transaction, index) => {
+        const x = scales.xScale(new Date(transaction.createdAt).getTime());
+        const y = scales.yScale(sumAmounts[index + 1]);
+        
+        // Add to path strings
+        pathD += ` L ${x} ${y}`;
+        areaPathD += ` L ${x} ${y}`;
+        
+        // Draw line from previous point
+        const line = createSvgElement("line", {
+            x1: previousPoint.x,
+            y1: previousPoint.y,
+            x2: x,
+            y2: y,
+            stroke: colors.lineColor,
+            "stroke-width": "2",
+            "stroke-opacity": "0.7"
+        });
+        graphGroup.appendChild(line);
+        
+        // Main point circle
+        const circle = createSvgElement("circle", {
+            cx: x,
+            cy: y,
+            r: 5,
+            fill: colors.lineColor,
+            stroke: colors.bgColor || "#ffffff",
+            "stroke-width": "2",
+            class: "data-point"
+        });
+        
+        // Inner highlight circle
+        const innerCircle = createSvgElement("circle", {
+            cx: x,
+            cy: y,
+            r: 2,
+            fill: "white",
+            class: "point-highlight"
+        });
+        
+        graphGroup.appendChild(circle);
+        graphGroup.appendChild(innerCircle);
+        
+        // Add hover events for interactive tooltip
+        addHoverEvent(circle, transaction, x, y);
+        
+        previousPoint = { x, y };
+    });
+    
+    // Complete area path
+    areaPathD += ` L ${previousPoint.x} ${height - padding} Z`;
+    areaPath.setAttribute("d", areaPathD);
+    
+    // Create and add line path
+    const linePath = createSvgElement("path", {
+        d: pathD,
+        fill: "none",
+        stroke: colors.lineColor,
+        "stroke-width": "2.5",
+        "stroke-linecap": "round",
+        "stroke-linejoin": "round",
+        class: "line-path"
+    });
+    graphGroup.appendChild(linePath);
+    
+    svg.appendChild(graphGroup);
+};
 
 const addHoverEvent = (circle, transaction, x, y) => {
     const transactionInfo = document.getElementById("transaction-info");
@@ -123,8 +226,8 @@ const addHoverEvent = (circle, transaction, x, y) => {
     circle.addEventListener("mouseover", () => {
         const date = new Date(transaction.createdAt);
         transactionInfo.style.display = "block";
-        transactionInfo.style.left = `${x + 150}px`;
-        transactionInfo.style.top = `${y + 500}px`;
+        transactionInfo.style.left = `${x + 200}px`;
+        transactionInfo.style.top = `${y + 600}px`;
         transactionInfo.innerHTML = `
             <div class="transaction-header">${transaction.object.name}</div>
             <div class="transaction-details">
@@ -169,10 +272,10 @@ export const renderSkillsChart = async () => {
 
     const container = document.getElementById("skills-chart");
     container.innerHTML = `
-        <div class="chart-border"></div>
-        <div class="skills-chart-info">
-            <h2 class="label">Your skills</h2>
-        </div>
+    <div class="card-header"></div>
+    <div class="chart-info">
+        <h2 class="label">Your Skills</h2>
+    </div>
     `;
 
     const width = Math.min(900, container.clientWidth);
@@ -180,15 +283,28 @@ export const renderSkillsChart = async () => {
     const padding = 50;
     const barWidth = (width - 2 * padding) / skillsMap.length;
 
-    const axisColor = getComputedStyle(document.documentElement).getPropertyValue("--text-color");
-    const barColor = getComputedStyle(document.documentElement).getPropertyValue("--primary-color");
-
+    // Get colors from CSS variables
+    const axisColor = getComputedStyle(document.documentElement).getPropertyValue("--text-color-secondary");
+    const barColorBase = getComputedStyle(document.documentElement).getPropertyValue("--primary-color");
+    const secondaryColor = getComputedStyle(document.documentElement).getPropertyValue("--secondary-color");
 
     const svg = createSvgElement("svg", {
         width,
         height,
         viewBox: `0 0 ${width} ${height}`,
     });
+
+    // Add subtle grid background
+    const bgRect = createSvgElement("rect", {
+        x: padding,
+        y: padding,
+        width: width - 2 * padding,
+        height: height - 2 * padding,
+        fill: "rgba(255, 255, 255, 0.02)",
+        rx: "4",
+        ry: "4"
+    });
+    svg.appendChild(bgRect);
 
     const maxAmount = 100;
     const minAmount = 0;
@@ -197,44 +313,160 @@ export const renderSkillsChart = async () => {
     drawAxes(svg, width, height, padding, axisColor);
     drawGridlines(svg, width, height, padding, axisColor, maxAmount, minAmount, 10, "%");
 
-    // Draw bars for each skill
+    // Create gradients for bars
+    const defs = svg.querySelector("defs") || createSvgElement("defs", {});
+    
+    const barGradient = createSvgElement("linearGradient", {
+        id: "barGradient",
+        x1: "0%",
+        y1: "0%",
+        x2: "0%",
+        y2: "100%"
+    });
+    
+    const stop1 = createSvgElement("stop", {
+        offset: "0%",
+        "stop-color": barColorBase
+    });
+    
+    const stop2 = createSvgElement("stop", {
+        offset: "100%",
+        "stop-color": secondaryColor
+    });
+    
+    barGradient.appendChild(stop1);
+    barGradient.appendChild(stop2);
+    defs.appendChild(barGradient);
+    
+    // Create filter for glow effect
+    const glowFilter = createSvgElement("filter", {
+        id: "barGlow",
+        height: "130%"
+    });
+    
+    const feGaussianBlur = createSvgElement("feGaussianBlur", {
+        in: "SourceGraphic",
+        stdDeviation: "3",
+        result: "blur"
+    });
+    
+    const feColorMatrix = createSvgElement("feColorMatrix", {
+        in: "blur",
+        mode: "matrix",
+        values: "1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7",
+        result: "glow"
+    });
+    
+    const feMerge = createSvgElement("feMerge", {});
+    const feMergeNode1 = createSvgElement("feMergeNode", { in: "glow" });
+    const feMergeNode2 = createSvgElement("feMergeNode", { in: "SourceGraphic" });
+    
+    feMerge.appendChild(feMergeNode1);
+    feMerge.appendChild(feMergeNode2);
+    
+    glowFilter.appendChild(feGaussianBlur);
+    glowFilter.appendChild(feColorMatrix);
+    glowFilter.appendChild(feMerge);
+    
+    defs.appendChild(glowFilter);
+    svg.appendChild(defs);
+
+    // Create group for bars
+    const barsGroup = createSvgElement("g", { class: "skill-bars" });
+
+    // Draw bars for each skill with animation setup
     skillsMap.forEach(([skill, amount], index) => {
+        // Calculate bar dimensions
+        const fullBarHeight = (maxAmount / maxAmount) * (height - 2 * padding);
         const barHeight = (amount / maxAmount) * (height - 2 * padding);
         const x = padding + index * barWidth;
         const y = height - padding - barHeight;
-
-        // Create bar
+        
+        // Create background bar (full height) for better visual
+        const bgBar = createSvgElement("rect", {
+            x: x + barWidth * 0.1,
+            y: padding,
+            width: barWidth * 0.8,
+            height: fullBarHeight,
+            fill: "rgba(255, 255, 255, 0.05)",
+            rx: "4",
+            ry: "4"
+        });
+        barsGroup.appendChild(bgBar);
+        
+        // Create main bar with gradient and rounded corners
         const bar = createSvgElement("rect", {
-            x,
-            y,
-            width: barWidth * 0.8, // Add spacing between bars
-            height: barHeight,
-            fill: barColor,
+            x: x + barWidth * 0.1,
+            y: height - padding - 0, // Start at zero height for animation
+            width: barWidth * 0.8,
+            height: 0, // Start at zero height for animation
+            fill: "url(#barGradient)",
+            rx: "4",
+            ry: "4",
+            filter: "url(#barGlow)",
+            "data-original-height": barHeight,
+            "data-original-y": y,
+            class: "skill-bar"
         });
-        svg.appendChild(bar);
+        barsGroup.appendChild(bar);
 
-        // Add skill labels
+        // Add skill labels with better styling
         const label = createSvgElement("text", {
-            x: x + barWidth * 0.4,
-            y: height - padding + 15,
+            x: x + barWidth * 0.5,
+            y: height - padding + 20,
             "text-anchor": "middle",
-            "font-size": "10",
+            "font-size": "12",
+            "font-family": "Inter, sans-serif",
+            "font-weight": "500",
             fill: axisColor,
+            opacity: "0.9"
         });
-        label.textContent = skill.replace("skill_", "");
-        svg.appendChild(label);
+        // Format skill name for better display
+        label.textContent = skill.replace("skill_", "").charAt(0).toUpperCase() + 
+                           skill.replace("skill_", "").slice(1);
+        barsGroup.appendChild(label);
 
-        // Add value labels
+        // Add value labels with better styling
         const valueLabel = createSvgElement("text", {
-            x: x + barWidth * 0.4,
-            y: y - 5,
+            x: x + barWidth * 0.5,
+            y: y - 10,
             "text-anchor": "middle",
-            "font-size": "13",
-            fill: axisColor,
+            "font-size": "14",
+            "font-family": "Inter, sans-serif",
+            "font-weight": "600",
+            fill: "#ffffff",
+            opacity: "0", // Start hidden for animation
+            class: "value-label",
+            "data-original-y": y - 10
         });
-        valueLabel.textContent = amount +" %";
-        svg.appendChild(valueLabel);
+        valueLabel.textContent = amount + "%";
+        barsGroup.appendChild(valueLabel);
     });
 
+    svg.appendChild(barsGroup);
     container.appendChild(svg);
+    
+    // Animate bars after chart is added to DOM
+    setTimeout(() => {
+        const bars = svg.querySelectorAll(".skill-bar");
+        const labels = svg.querySelectorAll(".value-label");
+        
+        bars.forEach((bar, index) => {
+            const originalHeight = parseFloat(bar.getAttribute("data-original-height"));
+            const originalY = parseFloat(bar.getAttribute("data-original-y"));
+            
+            // Animate height and position
+            setTimeout(() => {
+                bar.style.transition = "height 1s ease-out, y 1s ease-out";
+                bar.setAttribute("height", originalHeight);
+                bar.setAttribute("y", originalY);
+                
+                // Also animate the value label
+                if (labels[index]) {
+                    labels[index].style.transition = "opacity 0.5s ease-in";
+                    labels[index].setAttribute("opacity", "1");
+                }
+            }, index * 100); // Stagger animation
+        });
+    }, 300);
 };
