@@ -3,14 +3,14 @@
 ********************************************************/
 
 import { logout } from "./authManager.js"
-import { fetchGraphQL } from "./graphQL.js"
-import { GET_USER_NAME } from "./graphQL.js"
+import { graphQLService } from "./graphQLService.js"
+import { QUERIES } from "./graphQLService.js"
 import { renderProfilePage } from "../views/pages.js"
 
 export const initProfile = async () => {
     const token = localStorage.getItem('JWT')
 
-    fetchGraphQL(GET_USER_NAME, {}, token)
+    graphQLService.execute(QUERIES.USER_PROFILE, {}, token)
         .then((response) => {
             if (Array.isArray(response.errors)) {
                 throw response.errors[0].message

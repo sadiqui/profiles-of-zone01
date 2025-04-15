@@ -3,17 +3,15 @@
 ********************************************************/
 
 import { logout } from "../logic/authManager.js"
-import { fetchGraphQL } from "../logic/graphQL.js";
-import { GET_USER_TRANSACTIONS } from "../logic/graphQL.js";
-import { GET_USER_LEVEL } from "../logic/graphQL.js";
-import { GET_USER_AUDITS } from "../logic/graphQL.js";
+import { graphQLService } from "../logic/graphQLService.js";
+import { QUERIES } from "../logic/graphQLService.js";
 
 export const renderTransactionsList = async () => {
     // Fetch transactions info
     const token = localStorage.getItem("JWT");
     let data
 
-    await fetchGraphQL(GET_USER_TRANSACTIONS, {}, token)
+    await graphQLService.execute(QUERIES.USER_TRANSACTIONS, {}, token)
         .then((response) => {
             if (Array.isArray(response.errors)) {
                 throw response.errors[0].message;
@@ -58,7 +56,7 @@ export const renderCurrentLevel = async () => {
     const token = localStorage.getItem("JWT");
     let data
 
-    await fetchGraphQL(GET_USER_LEVEL, {}, token)
+    await graphQLService.execute(QUERIES.USER_LEVEL, {}, token)
         .then((response) => {
             if (Array.isArray(response.errors)) {
                 throw response.errors[0].message;
@@ -95,7 +93,7 @@ export const renderUserAudits = async () => {
     const token = localStorage.getItem("JWT");
     let data
 
-    await fetchGraphQL(GET_USER_AUDITS, {}, token)
+    await graphQLService.execute(QUERIES.USER_AUDITS, {}, token)
         .then((response) => {
             if (Array.isArray(response.errors)) {
                 throw response.errors[0].message;

@@ -2,8 +2,8 @@
                    Projects chart
 ********************************************************/
 
-import { fetchGraphQL } from "../logic/graphQL.js";
-import { GET_USER_PROGRESS } from "../logic/graphQL.js";
+import { graphQLService } from "../logic/graphQLService.js";
+import { QUERIES } from "../logic/graphQLService.js";
 import { formatDate } from "../logic/helpers.js";
 import { createSvgElement, drawAxes, drawGridlines } from "../logic/helpers.js";
 
@@ -74,7 +74,7 @@ export const renderTransactionsChart = async () => {
 
 const getTransactionsData = async (name, token) => {
     try {
-        const response = await fetchGraphQL(GET_USER_PROGRESS, { name }, token);
+        const response = await graphQLService.execute(QUERIES.USER_PROGRESS, { name }, token);
         const event = response.data.event[0].object.events[0];
         const transactions = Array.isArray(response.data.transaction) ? response.data.transaction : [];
         return {
@@ -230,14 +230,13 @@ const addHoverEvent = (circle, transaction, x, y) => {
 ********************************************************/
 
 import { logout } from "../logic/authManager.js"
-import { GET_USER_SKILLS } from "../logic/graphQL.js";
 import { getMaxAmountPerSkill } from "../logic/helpers.js";
 
 export const renderSkillsChart = async () => {
     const token = localStorage.getItem("JWT");
     let skillsMap = [];
 
-    await fetchGraphQL(GET_USER_SKILLS, {}, token)
+    await graphQLService.execute(QUERIES.USER_SKILLS, {}, token)
         .then((response) => {
             if (Array.isArray(response.errors)) {
                 throw response.errors[0].message;
