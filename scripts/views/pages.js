@@ -49,19 +49,18 @@ export const renderProfilePage = (user) => {
     <div class="profile">
         <div class="profile-header">
             <div class="user-greeting">
-                <h1>Welcome back, <span class="user-name">${user.firstName} ${user.lastName}</span>!</h1>
-                <p>Here's your dashboard overview</p>
+                <h1>Great to see you, <span class="user-name">${user.firstName} ${user.lastName}</span>!</h1>
+                <p>Let's check out what's new on your dashboard</p>
             </div>
             <button id="logout-button" class="btn logout-btn">
                 <i class="fa-solid fa-right-from-bracket"></i> Logout
             </button>
         </div>
         <div class="profile-container">
-        <div class="level">
-        <div id="level-info" class="dashboard-card"></div>
-        <div id="last-transactions-info" class="dashboard-card"></div>
-        </div>
-            <div id="transaction-info"></div>
+            <div class="level">
+                <div id="level-info" class="dashboard-card"></div>
+                <div id="last-transactions-info" class="dashboard-card"></div>
+            </div>
             <div id="skills-chart" class="dashboard-card"></div>
             <div id="transactions-chart" class="dashboard-card"></div>
             <div id="audits-info" class="dashboard-card"></div>

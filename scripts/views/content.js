@@ -8,7 +8,7 @@ import { GET_LEVEL_INFO } from "../logic/graphQL.js";
 import { GET_AUDITS_INFO } from "../logic/graphQL.js";
 
 export const renderLastTransComponent = async () => {
-    // Fetch audits info
+    // Fetch transactions info
     const token = localStorage.getItem("JWT");
     let data
 
@@ -19,7 +19,7 @@ export const renderLastTransComponent = async () => {
             }
 
             if (response && Array.isArray(response.data.user[0].transactions)) {
-                data = response.data.user[0].transactions
+                data = response.data.user[0].transactions.filter(tx => tx.amount >= 5000)
             } else {
                 throw new Error("Invalid data received!");
             }
@@ -30,13 +30,13 @@ export const renderLastTransComponent = async () => {
         });
 
 
-    // Render audit info
+    // Render transactions info
     const container = document.getElementById("last-transactions-info");
     container.innerHTML = `
     <div class="card-header"></div>
-    <h2 class="card-title">Recent Transactions</h2>
+    <h2 class="card-title">Transactions List</h2>
     <div class="last-transactions-info-container">
-        ${data.map(transaction => /*html*/`
+        ${data.map(transaction => `
             <div class="transaction-item">
                 <span class="name">${transaction.object.name}</span>
                 <span class="amount">${transaction.amount/1000} KB</span>
@@ -52,7 +52,7 @@ export const renderLastTransComponent = async () => {
 ********************************************************/
 
 export const renderLevelComponenet = async () => {
-    // Fetch audits info
+    // Fetch level info
     const token = localStorage.getItem("JWT");
     let data
 
@@ -74,11 +74,11 @@ export const renderLevelComponenet = async () => {
         });
 
 
-    // Render audit info
+    // Render level info
     const container = document.getElementById("level-info");
     container.innerHTML = `
     <div class="card-header"></div>
-    <h2 class="card-title">Your Level</h2>
+    <h2 class="card-title">Current Level</h2>
     <div class="level-info-container">
         <span>${data}</span>
     </div>
@@ -120,13 +120,13 @@ export const renderAuditsInfo = async () => {
 
     // Render audit info
     const container = document.getElementById("audits-info");
-    container.innerHTML = /*html*/ `
+    container.innerHTML = `
     <div class="card-header"></div>
-    <h2 class="card-title">Your Audit Statistics</h2>
+    <h2 class="card-title">Audits You Done</h2>
     <div class="audits-grid">
         <div class="audit-card">
             <span class="audit-number">${(data.auditRatio).toFixed(1)}</span>
-            <span class="audit-label">Audit Ratio</span>
+            <span class="audit-label">Audits Ratio</span>
         </div>
         <div class="audit-card">
             <span class="audit-number">${total}</span>
@@ -134,11 +134,11 @@ export const renderAuditsInfo = async () => {
         </div>
         <div class="audit-card">
             <span class="audit-number success-value">${(succeededPercentage).toFixed(1)} %</span>
-            <span class="audit-label">Success Rate</span>
+            <span class="audit-label">Succeeded</span>
         </div>
         <div class="audit-card">
             <span class="audit-number danger-value">${(failedPercentage).toFixed(1)} %</span>
-            <span class="audit-label">Fail Rate</span>
+            <span class="audit-label">Failed</span>
         </div>
     </div>
     `;

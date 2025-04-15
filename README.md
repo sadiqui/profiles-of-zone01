@@ -1,20 +1,28 @@
-<h2 align="center">GraphQL thingy</h2>
+<h2 align="center">
+<a href="https://sadiqui.github.io/profiles-of-zone01/">
+Profiles of Zone01</a></h2>
 
-This project is made by **[Sadiqui](https://github.com/sadiqui)** (yes, me 👀). It's like... a personal profile thing? But fancy! Uses **[GraphQL](https://graphql.org/)** (cool name), and pulls stuff about the user (**[Zoner](https://zone01oujda.ma/)**). Then it throws it on the screen with some colors and like... graphs? SVG ones. They wiggle. You log in, see your stats, XP and stuff. Oh and JWT because, security I guess?
+This GraphQL thingy was made by **[Sadiqui](https://github.com/sadiqui)** (yes, me 👀). It's like... a personal profile thing? But fancy! Uses **[GraphQL](https://graphql.org/)** (cool name), and pulls stuff about the user (**[Zoner](https://zone01oujda.ma/)**). Then it throws it on the screen with some colors and like... graphs? **[SVG](https://en.wikipedia.org/wiki/SVG)** ones. They wiggle. You log in, see your stats, XP and stuff. Oh and **[JWT](https://jwt.io/)** because, security I guess?
 
 ## It does stuff
 
-### Logging in and out things
+| Feature                        | Description                                      |
+|--------------------------------|--------------------------------------------------|
+| Login                          | User enters name + pass, checks for correctness  |
+| Invalid login                  | "Nope" – access denied                           |
+| Valid login                    | JWT token issued                                 |
+| Logout                         | Yes, it's supported                              |
+| Profile Data                   | Shows user stats like audits, level, etc.        |
+| Visuals                        | Skill chart and XP timeline (SVG-based graphs)   |
 
-- user goes in (name + pass). Checks it, if wrong: nope
-- valid ones get a token (JWT). logout? yup, that’s there
+## Tech Stack (aka the tools I'm not stuck at)
 
-### Data on the page (the cool bits)
-
-- some stats (audit something, level things)
-- more info? shiny skill donut & XP timeline
-
-### You can even see it live
-
-It’s on GitHub pages somewhere (probably) – check it... maybe?
-https://sadiqui.github.io/profiles-in-graphql/
+| Tool / Tech        | What it's doing here                               |
+|--------------------|----------------------------------------------------|
+| HTML5 & CSS3       | Building blocks of the page, styled and structured |
+| Vanilla JavaScript | Powering interactivity (no frameworks used!)       |
+| GraphQL            | Fetching the juicy user data                       |
+| JWT                | Handling user authentication securely              |
+| SVG                | Drawing those shiny interactive graphs             |
+| Font Awesome       | For icons that speak louder than words             |
+| GitHUb Pages       | Hosting the whole thing online                     |

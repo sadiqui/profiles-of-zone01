@@ -17,10 +17,7 @@ export const renderTransactionsChart = async () => {
     const container = document.getElementById("transactions-chart");
     container.innerHTML = `
     <div class="card-header"></div>
-    <div class="chart-info">
-        <h2 class="event-name">Progress Timeline</h2>
-        <span class="event-date">${formatDate(startAt)} → ${formatDate(endAt)}</span>
-    </div>
+    <h2 class="card-title">Progress Timeline</h2>
     `;
 
     const width = Math.min(900, container.clientWidth);
@@ -71,20 +68,6 @@ export const renderTransactionsChart = async () => {
     drawAxes(svg, width, height, padding, axisColor);
     drawGridlines(svg, width, height, padding, axisColor, maxAmount, minAmount, 5, "KB");
     plotDataPoints(svg, transactions, sumAmounts, scales, { lineColor, axisColor, bgColor }, startAt, height, padding);
-
-    // Add chart title with subtle styling
-    const title = createSvgElement("text", {
-        x: width / 2,
-        y: 20,
-        "text-anchor": "middle",
-        "font-family": "Inter, sans-serif",
-        "font-size": "14",
-        "font-weight": "600",
-        fill: axisColor,
-        opacity: "0.8"
-    });
-    title.textContent = "Progress Timeline";
-    svg.appendChild(title);
 
     container.appendChild(svg);
 };
@@ -143,8 +126,8 @@ const plotDataPoints = (svg, transactions, sumAmounts, scales, colors, startAt, 
     // Create and add area under curve
     const areaPath = createSvgElement("path", {
         d: areaPathD,
-        fill: "url(#areaGradient)",
-        "fill-opacity": "0.7",
+        fill: "#10b981",
+        "fill-opacity": "0.1",
         class: "area-path"
     });
     graphGroup.appendChild(areaPath);
@@ -226,8 +209,8 @@ const addHoverEvent = (circle, transaction, x, y) => {
     circle.addEventListener("mouseover", () => {
         const date = new Date(transaction.createdAt);
         transactionInfo.style.display = "block";
-        transactionInfo.style.left = `${x + 200}px`;
-        transactionInfo.style.top = `${y + 600}px`;
+        transactionInfo.style.left = `${x + 150}px`;
+        transactionInfo.style.top = `${y + 850}px`;
         transactionInfo.innerHTML = `
             <div class="transaction-header">${transaction.object.name}</div>
             <div class="transaction-details">
@@ -273,9 +256,7 @@ export const renderSkillsChart = async () => {
     const container = document.getElementById("skills-chart");
     container.innerHTML = `
     <div class="card-header"></div>
-    <div class="chart-info">
-        <h2 class="label">Your Skills</h2>
-    </div>
+    <h2 class="card-title">Gained Skills</h2>
     `;
 
     const width = Math.min(900, container.clientWidth);
@@ -388,7 +369,7 @@ export const renderSkillsChart = async () => {
             y: padding,
             width: barWidth * 0.8,
             height: fullBarHeight,
-            fill: "rgba(255, 255, 255, 0.05)",
+            fill: "rgba(255, 255, 255, 0.01)",
             rx: "4",
             ry: "4"
         });

@@ -106,7 +106,7 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 40px;
+    width: 50px;
     height: 3px;
     background: var(--primary-color);
     border-radius: 1.5px;
@@ -188,7 +188,6 @@
 }
 
 #level-info {
-    background-color: var(--bg-color-light);
     border-radius: var(--card-radius);
     overflow: hidden;
     box-shadow: var(--card-shadow);
@@ -221,7 +220,6 @@
 }
 
 #last-transactions-info {
-    background-color: var(--bg-color-light);
     border-radius: var(--card-radius);
     overflow: hidden;
     box-shadow: var(--card-shadow);
@@ -236,6 +234,22 @@
 
 .last-transactions-info-container {
     padding: 0 1rem;
+    max-height: 175px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+.last-transactions-info-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.last-transactions-info-container::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 4px;
+}
+
+.last-transactions-info-container::-webkit-scrollbar-track {
+    background-color: transparent;
 }
 
 .transaction-item {
@@ -275,9 +289,9 @@
     text-align: right;
 }
 
-#transactions-chart, #skills-chart {
+#transactions-chart,
+#skills-chart {
     width: 100%;
-    background-color: var(--bg-color-light);
     border-radius: var(--card-radius);
     overflow: hidden;
     margin-bottom: 1.5rem;
@@ -286,7 +300,8 @@
     transition: var(--transition);
 }
 
-#transactions-chart:hover, #skills-chart:hover {
+#transactions-chart:hover,
+#skills-chart:hover {
     transform: translateY(-5px);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
@@ -298,7 +313,8 @@
     padding: 1.5rem;
 }
 
-.event-name, .label {
+.event-name,
+.label {
     font-size: 1.25rem;
     font-weight: 600;
     color: var(--text-color);
@@ -360,8 +376,9 @@ svg {
     .level {
         grid-template-columns: 1fr;
     }
-    
-    #level-info, #last-transactions-info {
+
+    #level-info,
+    #last-transactions-info {
         width: 100%;
     }
 }
@@ -370,7 +387,7 @@ svg {
     .audits-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .profile-container {
         padding-top: 8rem;
     }
@@ -380,27 +397,27 @@ svg {
     .audits-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .transaction-item {
         flex-wrap: wrap;
     }
-    
+
     .transaction-item .name {
         flex: 0 0 100%;
         margin-bottom: 0.5rem;
     }
-    
+
     .transaction-item .amount {
         flex: 1;
         text-align: left;
     }
-    
+
     .profile-header {
         flex-direction: column;
         gap: 1rem;
         padding: 1rem;
     }
-    
+
     .logout-btn {
         width: 100%;
     }
