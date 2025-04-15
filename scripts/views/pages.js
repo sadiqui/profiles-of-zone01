@@ -33,11 +33,11 @@ export const renderLoginPage = () => {
 ********************************************************/
 
 import { handleLogout } from "../logic/handles.js";
-import { renderAuditsInfo } from "./content.js";
+import { renderUserAudits } from "./content.js";
 import { renderSkillsChart } from "./charts.js";
 import { renderTransactionsChart } from "./charts.js";
-import { renderLastTransComponent } from "./content.js";
-import { renderLevelComponenet } from "./content.js";
+import { renderTransactionsList } from "./content.js";
+import { renderCurrentLevel } from "./content.js";
 
 export const renderProfilePage = (user) => {
     document.body.innerHTML = ``;
@@ -70,9 +70,9 @@ export const renderProfilePage = (user) => {
     document.body.appendChild(container);
     document.getElementById('logout-button')?.addEventListener('click', handleLogout);
 
-    renderAuditsInfo()
-    renderLevelComponenet()
-    renderLastTransComponent()
+    renderUserAudits()
+    renderCurrentLevel()
+    renderTransactionsList()
     renderSkillsChart()
     renderTransactionsChart()
 };

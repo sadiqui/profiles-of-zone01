@@ -3,16 +3,16 @@
 ********************************************************/
 
 import { fetchGraphQL } from "../logic/graphQL.js";
-import { GET_LAST_TRANSACTIONS } from "../logic/graphQL.js";
-import { GET_LEVEL_INFO } from "../logic/graphQL.js";
-import { GET_AUDITS_INFO } from "../logic/graphQL.js";
+import { GET_USER_TRANSACTIONS } from "../logic/graphQL.js";
+import { GET_USER_LEVEL } from "../logic/graphQL.js";
+import { GET_USER_AUDITS } from "../logic/graphQL.js";
 
-export const renderLastTransComponent = async () => {
+export const renderTransactionsList = async () => {
     // Fetch transactions info
     const token = localStorage.getItem("JWT");
     let data
 
-    await fetchGraphQL(GET_LAST_TRANSACTIONS, {}, token)
+    await fetchGraphQL(GET_USER_TRANSACTIONS, {}, token)
         .then((response) => {
             if (Array.isArray(response.errors)) {
                 throw response.errors[0].message;
@@ -51,12 +51,12 @@ export const renderLastTransComponent = async () => {
                       Show level
 ********************************************************/
 
-export const renderLevelComponenet = async () => {
+export const renderCurrentLevel = async () => {
     // Fetch level info
     const token = localStorage.getItem("JWT");
     let data
 
-    await fetchGraphQL(GET_LEVEL_INFO, {}, token)
+    await fetchGraphQL(GET_USER_LEVEL, {}, token)
         .then((response) => {
             if (Array.isArray(response.errors)) {
                 throw response.errors[0].message;
@@ -73,7 +73,6 @@ export const renderLevelComponenet = async () => {
             console.error(error);
         });
 
-
     // Render level info
     const container = document.getElementById("level-info");
     container.innerHTML = `
@@ -89,12 +88,12 @@ export const renderLevelComponenet = async () => {
                       Show audits info
 ********************************************************/
 
-export const renderAuditsInfo = async () => {
+export const renderUserAudits = async () => {
     // Fetch audits info
     const token = localStorage.getItem("JWT");
     let data
 
-    await fetchGraphQL(GET_AUDITS_INFO, {}, token)
+    await fetchGraphQL(GET_USER_AUDITS, {}, token)
         .then((response) => {
             if (Array.isArray(response.errors)) {
                 throw response.errors[0].message;

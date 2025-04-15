@@ -1,5 +1,5 @@
 /*******************************************************
-                Handle Login Process
+                Handle Authentication
 ********************************************************/
 
 import { submitLogin } from "./graphQL.js"
@@ -39,13 +39,13 @@ export const handleLogout = () => {
 ********************************************************/
 
 import { fetchGraphQL } from "./graphQL.js"
-import { GET_USER_INFO } from "./graphQL.js"
+import { GET_USER_NAME } from "./graphQL.js"
 import { renderProfilePage } from "../views/pages.js"
 
 export const handleProfile = async () => {
     const token = localStorage.getItem('JWT')
 
-    fetchGraphQL(GET_USER_INFO, {}, token)
+    fetchGraphQL(GET_USER_NAME, {}, token)
         .then((response) => {
             if (Array.isArray(response.errors)) {
                 throw response.errors[0].message

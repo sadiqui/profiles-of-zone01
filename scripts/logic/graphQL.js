@@ -2,10 +2,10 @@
                 Authentication Requests
 ********************************************************/
 
-import { AUTH_URL } from "../app.js"
+import { SIGNIN_ENDPOINT } from "../app.js"
 
 export const submitLogin = async (credentials) => {
-    const response = await fetch(AUTH_URL, {
+    const response = await fetch(SIGNIN_ENDPOINT, {
         method: 'POST',
         headers: {
             Authorization: `Basic ${btoa(credentials.username + ":" + credentials.password)}`
@@ -18,10 +18,10 @@ export const submitLogin = async (credentials) => {
                    GraphQL Requests
 ********************************************************/
 
-import { GRAPHQL_URL } from "../app.js";
+import { DATA_ENDPOINT } from "../app.js";
 
 export const fetchGraphQL = async (query, variables, token) => {
-    const response = await fetch(GRAPHQL_URL, {
+    const response = await fetch(DATA_ENDPOINT, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ export const fetchGraphQL = async (query, variables, token) => {
                    GraphQL Structures
 ********************************************************/
 
-export const GET_USER_INFO = `
+export const GET_USER_NAME = `
 {
   user {
     firstName
@@ -49,7 +49,7 @@ export const GET_USER_INFO = `
 }
 `;
 
-export const GET_LEVEL_INFO = `
+export const GET_USER_LEVEL = `
 {
   transaction(
     where: {
@@ -66,7 +66,7 @@ export const GET_LEVEL_INFO = `
 }
 `;
 
-export const GET_LAST_TRANSACTIONS = `
+export const GET_USER_TRANSACTIONS = `
 {
   user {
     transactions(
@@ -83,7 +83,7 @@ export const GET_LAST_TRANSACTIONS = `
 }
 `;
 
-export const GET_SKILLS = `
+export const GET_USER_SKILLS = `
 {
   user {
     transactions(
@@ -96,7 +96,7 @@ export const GET_SKILLS = `
 }
 `;
 
-export const GET_TRANSACTIONS = `
+export const GET_USER_PROGRESS = `
 query GetTransactions($name: String!) {
   event(where: { object: { name: { _eq: $name } } }) {
     object {
@@ -124,7 +124,7 @@ query GetTransactions($name: String!) {
 }
 `;
 
-export const GET_AUDITS_INFO = `
+export const GET_USER_AUDITS = `
 {
   user {
     auditRatio
