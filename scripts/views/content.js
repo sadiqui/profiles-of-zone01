@@ -19,6 +19,7 @@ export const renderTransactionsList = async () => {
             }
 
             if (response && Array.isArray(response.data.user[0].transactions)) {
+                // Filter out any in-middle checkpoint exercises
                 data = response.data.user[0].transactions.filter(tx => tx.amount >= 5000)
             } else {
                 throw new Error("Invalid data received!");

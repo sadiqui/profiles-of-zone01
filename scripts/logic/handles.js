@@ -6,7 +6,7 @@ import { submitLogin } from "./graphQL.js"
 import { renderLoginPage } from "../views/pages.js"
 import { writeErrorMessage } from "./helpers.js"
 
-export const handleLogin = () => {
+export const initLogin = () => {
     renderLoginPage()
     const form = document.getElementById("login-form")
     form.addEventListener('submit', async (e) => {
@@ -21,7 +21,7 @@ export const handleLogin = () => {
                 throw response.error
             }
             localStorage.setItem('JWT', response)
-            handleProfile()
+            initProfile()
         } catch (error) {
             writeErrorMessage("login-error", error)
         }
@@ -31,7 +31,7 @@ export const handleLogin = () => {
 export const handleLogout = () => {
     localStorage.removeItem('JWT')
     document.body.innerHTML = ``
-    handleLogin()
+    initLogin()
 }
 
 /*******************************************************
@@ -42,7 +42,7 @@ import { fetchGraphQL } from "./graphQL.js"
 import { GET_USER_NAME } from "./graphQL.js"
 import { renderProfilePage } from "../views/pages.js"
 
-export const handleProfile = async () => {
+export const initProfile = async () => {
     const token = localStorage.getItem('JWT')
 
     fetchGraphQL(GET_USER_NAME, {}, token)

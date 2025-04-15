@@ -63,6 +63,7 @@ export const renderProfilePage = (user) => {
             </div>
             <div id="skills-chart" class="dashboard-card"></div>
             <div id="transactions-chart" class="dashboard-card"></div>
+            <div id="transaction-info"></div> <!-- For on hover data -->
             <div id="audits-info" class="dashboard-card"></div>
         </div>
     </div>`;

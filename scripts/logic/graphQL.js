@@ -2,10 +2,10 @@
                 Authentication Requests
 ********************************************************/
 
-import { SIGNIN_ENDPOINT } from "../app.js"
+import { API } from "../app.js"
 
 export const submitLogin = async (credentials) => {
-    const response = await fetch(SIGNIN_ENDPOINT, {
+    const response = await fetch(API.SIGNIN_ENDPOINT, {
         method: 'POST',
         headers: {
             Authorization: `Basic ${btoa(credentials.username + ":" + credentials.password)}`
@@ -18,10 +18,8 @@ export const submitLogin = async (credentials) => {
                    GraphQL Requests
 ********************************************************/
 
-import { DATA_ENDPOINT } from "../app.js";
-
 export const fetchGraphQL = async (query, variables, token) => {
-    const response = await fetch(DATA_ENDPOINT, {
+    const response = await fetch(API.DATA_ENDPOINT, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -97,7 +95,7 @@ export const GET_USER_SKILLS = `
 `;
 
 export const GET_USER_PROGRESS = `
-query GetTransactions($name: String!) {
+query GetUserProgress($name: String!) {
   event(where: { object: { name: { _eq: $name } } }) {
     object {
       events {
