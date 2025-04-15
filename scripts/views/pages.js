@@ -39,7 +39,7 @@ import { renderTransactionsChart } from "./charts.js";
 import { renderTransactionsList } from "./content.js";
 import { renderCurrentLevel } from "./content.js";
 
-export const renderProfilePage = (user) => {
+export const renderProfileView = (user) => {
     document.body.innerHTML = ``;
 
     // Create container

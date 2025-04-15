@@ -1,7 +1,7 @@
 import { API } from "../app.js";
 import { renderLoginView } from "../views/pages.js";
 import { displayError } from "./helpers.js";
-import { initProfile } from "./handles.js";
+import { initProfile } from "./profileManager.js";
 
 /**
  * Authentication service for API communication

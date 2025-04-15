@@ -5,7 +5,7 @@ export const API = {
 };
 
 // Import core handlers
-import { initProfile } from "./logic/handles.js"
+import { initProfile } from "./logic/profileManager.js"
 import { initLogin } from "./logic/authManager.js"
 
 /**
