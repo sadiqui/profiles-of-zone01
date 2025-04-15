@@ -11,7 +11,7 @@ export const formatDate = (date) => {
     return `${day}-${month}-${year}`;
 }
 
-export const writeErrorMessage = (elementID, message) => {
+export const displayError = (elementID, message) => {
     const errorElement = document.getElementById(elementID);
     if (errorElement) {
         errorElement.textContent = message

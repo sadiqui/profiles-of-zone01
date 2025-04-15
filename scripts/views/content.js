@@ -2,6 +2,7 @@
                       Show Projects
 ********************************************************/
 
+import { logout } from "../logic/authManager.js"
 import { fetchGraphQL } from "../logic/graphQL.js";
 import { GET_USER_TRANSACTIONS } from "../logic/graphQL.js";
 import { GET_USER_LEVEL } from "../logic/graphQL.js";
@@ -26,7 +27,7 @@ export const renderTransactionsList = async () => {
             }
         })
         .catch((error) => {
-            if (typeof error === "string" && error.includes('JWTExpired')) handleLogout();
+            if (typeof error === "string" && error.includes('JWTExpired')) logout();
             console.error(error);
         });
 
@@ -70,7 +71,7 @@ export const renderCurrentLevel = async () => {
             }
         })
         .catch((error) => {
-            if (typeof error === "string" && error.includes('JWTExpired')) handleLogout();
+            if (typeof error === "string" && error.includes('JWTExpired')) logout();
             console.error(error);
         });
 
@@ -106,7 +107,7 @@ export const renderUserAudits = async () => {
             }
         })
         .catch((error) => {
-            if (typeof error === "string" && error.includes('JWTExpired')) handleLogout();
+            if (typeof error === "string" && error.includes('JWTExpired')) logout();
             console.error(error);
         });
 

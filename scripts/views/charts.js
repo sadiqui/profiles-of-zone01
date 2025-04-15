@@ -229,6 +229,7 @@ const addHoverEvent = (circle, transaction, x, y) => {
                    Skills Chart
 ********************************************************/
 
+import { logout } from "../logic/authManager.js"
 import { GET_USER_SKILLS } from "../logic/graphQL.js";
 import { getMaxAmountPerSkill } from "../logic/helpers.js";
 
@@ -249,7 +250,7 @@ export const renderSkillsChart = async () => {
             }
         })
         .catch((error) => {
-            if (typeof error === "string" && error.includes('JWTExpired')) handleLogout();
+            if (typeof error === "string" && error.includes('JWTExpired')) logout();
             console.error(error);
         });
 

@@ -1,37 +1,23 @@
 /*******************************************************
-                Authentication Requests
-********************************************************/
-
-import { API } from "../app.js"
-
-export const submitLogin = async (credentials) => {
-    const response = await fetch(API.SIGNIN_ENDPOINT, {
-        method: 'POST',
-        headers: {
-            Authorization: `Basic ${btoa(credentials.username + ":" + credentials.password)}`
-        }
-    });
-    return response.json();
-}
-
-/*******************************************************
                    GraphQL Requests
 ********************************************************/
 
-export const fetchGraphQL = async (query, variables, token) => {
-    const response = await fetch(API.DATA_ENDPOINT, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-            query: query,
-            variables: variables,
-        }),
-    });
+import { API } from "../app.js";
 
-    return response.json();
+export const fetchGraphQL = async (query, variables, token) => {
+  const response = await fetch(API.DATA_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      query: query,
+      variables: variables,
+    }),
+  });
+
+  return response.json();
 };
 
 /*******************************************************

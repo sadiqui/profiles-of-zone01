@@ -2,9 +2,9 @@
                    Authentication Page
 ********************************************************/
 
-import { writeErrorMessage } from "../logic/helpers.js";
+import { displayError } from "../logic/helpers.js";
 
-export const renderLoginPage = () => {
+export const renderLoginView = () => {
     const container = document.createElement('div');
     container.innerHTML = `
     <div class="login-container">
@@ -21,10 +21,10 @@ export const renderLoginPage = () => {
 
     // empty the error message
     document.getElementById('username')?.addEventListener("focus", () => {
-        writeErrorMessage("login-error", "")
+        displayError("login-error", "")
     })
     document.getElementById('password')?.addEventListener("focus", () => {
-        writeErrorMessage("login-error", "")
+        displayError("login-error", "")
     })
 }
 
@@ -32,7 +32,7 @@ export const renderLoginPage = () => {
                       Profile Page
 ********************************************************/
 
-import { handleLogout } from "../logic/handles.js";
+import { logout } from "../logic/authManager.js";
 import { renderUserAudits } from "./content.js";
 import { renderSkillsChart } from "./charts.js";
 import { renderTransactionsChart } from "./charts.js";
@@ -69,7 +69,7 @@ export const renderProfilePage = (user) => {
     </div>`;
 
     document.body.appendChild(container);
-    document.getElementById('logout-button')?.addEventListener('click', handleLogout);
+    document.getElementById('logout-button')?.addEventListener('click', logout);
 
     renderUserAudits()
     renderCurrentLevel()

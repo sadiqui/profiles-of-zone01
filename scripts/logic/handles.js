@@ -1,43 +1,8 @@
 /*******************************************************
-                Handle Authentication
-********************************************************/
-
-import { submitLogin } from "./graphQL.js"
-import { renderLoginPage } from "../views/pages.js"
-import { writeErrorMessage } from "./helpers.js"
-
-export const initLogin = () => {
-    renderLoginPage()
-    const form = document.getElementById("login-form")
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault()
-        const credentials = {
-            username: form?.username.value,
-            password: form?.password.value,
-        }
-        try {
-            const response = await submitLogin(credentials)
-            if (response.error) {
-                throw response.error
-            }
-            localStorage.setItem('JWT', response)
-            initProfile()
-        } catch (error) {
-            writeErrorMessage("login-error", error)
-        }
-    })
-}
-
-export const handleLogout = () => {
-    localStorage.removeItem('JWT')
-    document.body.innerHTML = ``
-    initLogin()
-}
-
-/*******************************************************
                 Handle Profile Page
 ********************************************************/
 
+import { logout } from "./authManager.js"
 import { fetchGraphQL } from "./graphQL.js"
 import { GET_USER_NAME } from "./graphQL.js"
 import { renderProfilePage } from "../views/pages.js"
@@ -58,7 +23,7 @@ export const initProfile = async () => {
             }
         })
         .catch((error) => {
-            if (typeof error === "string" && error.includes('JWTExpired')) handleLogout()
+            if (typeof error === "string" && error.includes('JWTExpired')) logout()
             console.error(error);
         });
 }
