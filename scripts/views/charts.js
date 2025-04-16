@@ -2,10 +2,11 @@
                    Projects chart
 ********************************************************/
 
-import { graphQLService } from "../logic/graphQLService.js";
 import { QUERIES } from "../logic/graphQLService.js";
-import { formatDate } from "../logic/helpers.js";
-import { createSvgElement, drawAxes, drawGridlines } from "../logic/helpers.js";
+import { graphQLService } from "../logic/graphQLService.js";
+
+import { createSvgElement } from "../logic/uiHelper.js";
+import { drawAxes, drawGridlines } from "../logic/chartComponents.js";
 
 export const renderTransactionsChart = async () => {
     const token = localStorage.getItem("JWT");
@@ -230,7 +231,7 @@ const addHoverEvent = (circle, transaction, x, y) => {
 ********************************************************/
 
 import { logout } from "../logic/authManager.js"
-import { getMaxAmountPerSkill } from "../logic/helpers.js";
+import { getMaxAmountPerSkill } from "../logic/uiHelper.js";
 
 export const renderSkillsChart = async () => {
     const token = localStorage.getItem("JWT");

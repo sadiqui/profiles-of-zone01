@@ -1,44 +1,13 @@
-/*******************************************************
-                      General Use
-********************************************************/
-
-export const formatDate = (date) => {
-    if (!date) return ""
-    date = new Date(date)
-    const day = date.getDate().toString().padStart(2, '0');
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-}
-
-export const displayError = (elementID, message) => {
-    const errorElement = document.getElementById(elementID);
-    if (errorElement) {
-        errorElement.textContent = message
-    }
-}
-
-/*******************************************************
-                         Visuals
-********************************************************/
-
-export const createSvgElement = (name, attributes) => {
-    const svgNS = "http://www.w3.org/2000/svg";
-    const element = document.createElementNS(svgNS, name);
-    Object.entries(attributes).forEach(([key, value]) => {
-        element.setAttribute(key, value);
-    });
-    return element;
-}
+import { createSvgElement } from "../logic/uiHelper.js";
 
 export const drawAxes = (svg, width, height, padding, axisColor) => {
     // Create axes group for better organization
     const axesGroup = createSvgElement("g", { class: "axes" });
-    
+
     // Add subtle drop shadow filter for depth
     const defs = createSvgElement("defs", {});
     const filter = createSvgElement("filter", { id: "axisGlow" });
-    const feGaussianBlur = createSvgElement("feGaussianBlur", { 
+    const feGaussianBlur = createSvgElement("feGaussianBlur", {
         in: "SourceGraphic",
         stdDeviation: "1",
         result: "blur"
@@ -46,7 +15,7 @@ export const drawAxes = (svg, width, height, padding, axisColor) => {
     filter.appendChild(feGaussianBlur);
     defs.appendChild(filter);
     svg.appendChild(defs);
-    
+
     // Create x-axis with improved styling
     const xAxis = createSvgElement("line", {
         x1: padding,
@@ -58,7 +27,7 @@ export const drawAxes = (svg, width, height, padding, axisColor) => {
         "stroke-opacity": "0.7",
         filter: "url(#axisGlow)"
     });
-    
+
     // Create y-axis with improved styling
     const yAxis = createSvgElement("line", {
         x1: padding,
@@ -70,7 +39,7 @@ export const drawAxes = (svg, width, height, padding, axisColor) => {
         "stroke-opacity": "0.7",
         filter: "url(#axisGlow)"
     });
-    
+
     axesGroup.appendChild(xAxis);
     axesGroup.appendChild(yAxis);
     svg.appendChild(axesGroup);
@@ -79,10 +48,10 @@ export const drawAxes = (svg, width, height, padding, axisColor) => {
 export const drawGridlines = (svg, width, height, padding, axisColor, maxAmount, minAmount, numYLines, unit) => {
     const chartHeight = height - 2 * padding;
     const step = chartHeight / numYLines;
-    
+
     // Create a group for gridlines for better organization
     const gridGroup = createSvgElement("g", { class: "grid-lines" });
-    
+
     // Draw horizontal gridlines with labels
     for (let i = 0; i <= numYLines; i++) {
         const y = padding + i * step;
@@ -100,7 +69,7 @@ export const drawGridlines = (svg, width, height, padding, axisColor, maxAmount,
             "stroke-opacity": "0.2",
             class: "grid-line"
         });
-        
+
         gridGroup.appendChild(gridline);
 
         // Create a more modern label with better positioning
@@ -122,20 +91,6 @@ export const drawGridlines = (svg, width, height, padding, axisColor, maxAmount,
         label.textContent = `${displayValue} ${unit}`;
         gridGroup.appendChild(label);
     }
-    
+
     svg.appendChild(gridGroup);
 };
-
-export const getMaxAmountPerSkill = (transactions) => {
-    const maxSkillMap = new Map();
-
-    transactions.forEach((transaction) => {
-        const { type, amount } = transaction;
-
-        if (!maxSkillMap.has(type) || maxSkillMap.get(type) < amount) {
-            maxSkillMap.set(type, amount);
-        }
-    });
-
-    return maxSkillMap;
-}

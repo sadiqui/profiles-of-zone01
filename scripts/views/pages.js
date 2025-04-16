@@ -2,7 +2,7 @@
                    Authentication Page
 ********************************************************/
 
-import { displayError } from "../logic/helpers.js";
+import { displayError } from "../logic/uiHelper.js";
 
 export const renderLoginView = () => {
     const container = document.createElement('div');
