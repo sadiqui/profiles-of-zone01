@@ -3,8 +3,10 @@
  */
 
 import { logout } from "../logic/authManager.js";
+import { renderLevel } from "./renderLevel.js";
+import { renderAudits } from "./renderAudits.js";
+import { renderTransactions } from "./renderTrans.js";
 import { renderProgressChart, renderSkillsChart } from "../logic/chartComponents.js";
-import { renderCurrentLevel, renderTransactionsList, renderUserAudits } from "./content.js";
 
 /**
  * Renders the profile view for a logged-in user and initializes dashboard components
@@ -78,9 +80,9 @@ function setupLogoutButton() {
  */
 function initializeDashboard() {
   // Load user data components
-  renderUserAudits();
-  renderCurrentLevel();
-  renderTransactionsList();
+  renderAudits();
+  renderLevel();
+  renderTransactions();
   
   // Render visualization components
   renderSkillsChart();
