@@ -1,5 +1,5 @@
 import { graphQLService, QUERIES } from "./graphQLService.js";
-import { renderProfileView } from "../views/pages.js";
+import { renderProfileView } from "../views/profilePage.js";
 import { logout } from "./authManager.js";
 
 /**
