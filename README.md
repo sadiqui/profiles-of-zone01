@@ -1,6 +1,8 @@
 <h2 align="center">
-<a href="https://sadiqui.github.io/profiles-of-zone01/">
-Profiles of Zone01</a></h2>
+<a href="https://graphql-01.netlify.app/">
+GraphQL 01</a></h2>
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d8fc3fb5-5691-4d2e-8fa2-ae5d043f517f/deploy-status)](https://app.netlify.com/sites/graphql-01/deploys)
 
 This GraphQL thingy was made by **[Sadiqui](https://github.com/sadiqui)** (yes, me 👀). It's like... a personal profile thing? But fancy! Uses **[GraphQL](https://graphql.org/)** (cool name), and pulls stuff about the user (**[Zoner](https://zone01oujda.ma/)**). Then it throws it on the screen with some colors and like... graphs? **[SVG](https://en.wikipedia.org/wiki/SVG)** ones. They wiggle. You log in, see your stats, XP and stuff. Oh and **[JWT](https://jwt.io/)** because, security I guess?
 
