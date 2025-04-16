@@ -33,11 +33,8 @@ export const renderLoginView = () => {
 ********************************************************/
 
 import { logout } from "../logic/authManager.js";
-import { renderUserAudits } from "./content.js";
-import { renderSkillsChart } from "./charts.js";
-import { renderTransactionsChart } from "./charts.js";
-import { renderTransactionsList } from "./content.js";
-import { renderCurrentLevel } from "./content.js";
+import { renderProgressChart, renderSkillsChart } from "../logic/chartComponents.js";
+import { renderCurrentLevel, renderTransactionsList, renderUserAudits } from "./content.js";
 
 export const renderProfileView = (user) => {
     document.body.innerHTML = ``;
@@ -71,9 +68,9 @@ export const renderProfileView = (user) => {
     document.body.appendChild(container);
     document.getElementById('logout-button')?.addEventListener('click', logout);
 
-    renderUserAudits()
-    renderCurrentLevel()
-    renderTransactionsList()
-    renderSkillsChart()
-    renderTransactionsChart()
+    renderUserAudits();
+    renderCurrentLevel();
+    renderTransactionsList();
+    renderSkillsChart();
+    renderProgressChart();
 };
