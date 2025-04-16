@@ -1,13 +1,10 @@
-/**
- * Content Module: Audits
- */
+/*******************************************************
+                   Card: Audits
+********************************************************/
 
-import { graphQLService, QUERIES } from "../logic/graphQLService.js";
+import { graphQLService, QUERIES } from "../logic/graphQL.js";
 
-/**
- * Fetches and renders the user's audit information
- * @returns {Promise<void>}
- */
+// Fetches and renders the user's audit information
 export const renderAudits = async () => {
     // Audit data holder
     let userData = null;

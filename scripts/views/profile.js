@@ -1,18 +1,15 @@
-/**
- * Profile Page
- */
+/*******************************************************
+                   Page: Profile
+********************************************************/
 
-import { logout } from "../logic/authManager.js";
-import { renderLevel } from "./renderLevel.js";
-import { renderAudits } from "./renderAudits.js";
-import { renderTransactions } from "./renderTrans.js";
-import { renderProgressChart, renderSkillsChart } from "../logic/chartComponents.js";
+import { renderLevel } from "./level.js";
+import { logout } from "../logic/handles.js";
+import { renderTransactions } from "./trans.js";
+import { renderProgressChart } from "./progress.js";
+import { renderSkillsChart } from "./skills.js";
+import { renderAudits } from "./audits.js";
 
-/**
- * Renders the profile view for a logged-in user and initializes dashboard components
- * @param {Object} user - The user data object
- * @returns {void}
- */
+// Renders the profile view for a logged-in user and initializes dashboard components
 export const renderProfileView = (user) => {
   // Clear existing content
   document.body.innerHTML = '';
@@ -28,11 +25,7 @@ export const renderProfileView = (user) => {
   initializeDashboard();
 };
 
-/**
- * Creates the profile container with user information
- * @param {Object} user - The user data object
- * @returns {HTMLElement} The container element
- */
+// Creates the profile container with user information
 function createProfileContainer(user) {
   const container = document.createElement('div');
   container.className = "main-container";
@@ -63,10 +56,7 @@ function createProfileContainer(user) {
   return container;
 }
 
-/**
- * Sets up the logout button event listener
- * @returns {void}
- */
+// Sets up the logout button event listener
 function setupLogoutButton() {
   const logoutButton = document.getElementById('logout-button');
   if (logoutButton) {
@@ -74,10 +64,7 @@ function setupLogoutButton() {
   }
 }
 
-/**
- * Initializes all dashboard components
- * @returns {void}
- */
+// Initializes all dashboard components
 function initializeDashboard() {
   // Load user data components
   renderAudits();

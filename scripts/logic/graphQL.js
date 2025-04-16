@@ -1,17 +1,11 @@
+/*******************************************************
+                   GraphQL Requests
+********************************************************/
+
 import { API } from "../app.js";
 
-/**
- * GraphQL API service
- * Handles all GraphQL API communication
- */
+// GraphQL API service
 export const graphQLService = {
-  /**
-   * Execute a GraphQL query with authorization
-   * @param {String} query - GraphQL query string
-   * @param {Object} variables - Query variables
-   * @param {String} token - JWT authentication token
-   * @returns {Promise} Query results or error
-   */
   execute: async (query, variables = {}, token) => {
     const response = await fetch(API.DATA_ENDPOINT, {
       method: 'POST',
@@ -29,10 +23,7 @@ export const graphQLService = {
   }
 };
 
-/**
- * GraphQL query definitions
- * Centralized location for all query strings
- */
+// GraphQL query definitions
 export const QUERIES = {
   USER_PROFILE: `{
     user {

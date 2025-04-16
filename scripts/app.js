@@ -5,13 +5,9 @@ export const API = {
 };
 
 // Import core handlers
-import { initProfile } from "./logic/profileManager.js"
-import { initLogin } from "./logic/authManager.js"
+import { initLogin, initProfile } from "./logic/handles.js"
 
-/**
- * Application initialization
- * Determines whether to show login or profile based on JWT presence
- */
+// Application initialization
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('JWT');
     token ? initProfile() : initLogin();

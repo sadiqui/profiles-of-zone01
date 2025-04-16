@@ -1,13 +1,10 @@
-/**
- * Content Module: Transactions
- */
+/*******************************************************
+                   Card: Transactions
+********************************************************/
 
-import { graphQLService, QUERIES } from "../logic/graphQLService.js";
+import { graphQLService, QUERIES } from "../logic/graphQL.js";
 
-/**
- * Fetches and renders the user's transaction list
- * @returns {Promise<void>}
- */
+// Fetches and renders the user's transaction list
 export const renderTransactions = async () => {
     // Transaction data holder
     let transactionData = null;

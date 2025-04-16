@@ -1,13 +1,10 @@
-/**
- * Authentication Page
- */
+/*******************************************************
+                   Page: Login
+********************************************************/
 
-import { displayError } from "../logic/uiHelper.js";
+import { displayError } from "../logic/helpers.js";
 
-/**
- * Renders the login view and attaches event listeners
- * @returns {void}
- */
+// Renders the login view and attaches event listeners
 export const renderLoginView = () => {
   // Create container with login form
   const container = document.createElement('div');
@@ -22,10 +19,7 @@ export const renderLoginView = () => {
   setupErrorHandling();
 };
 
-/**
- * Creates the HTML structure for the login form
- * @returns {string} HTML template string
- */
+// Creates the HTML structure for the login form
 function createLoginFormHTML() {
   return `
     <div class="login-container">
@@ -39,10 +33,7 @@ function createLoginFormHTML() {
     </div>`;
 }
 
-/**
- * Sets up event listeners to clear error messages
- * @returns {void}
- */
+// Sets up event listeners to clear error messages
 function setupErrorHandling() {
   const fields = ['username', 'password'];
   

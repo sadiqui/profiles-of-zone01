@@ -1,13 +1,10 @@
-/**
- * Content Module: Level
- */
+/*******************************************************
+                   Card: Level
+********************************************************/
 
-import { graphQLService, QUERIES } from "../logic/graphQLService.js";
+import { graphQLService, QUERIES } from "../logic/graphQL.js";
 
-/**
- * Fetches and renders the user's current level
- * @returns {Promise<void>}
- */
+// Fetches and renders the user's current level
 export const renderLevel = async () => {
     // Level data holder
     let levelData = null;
@@ -27,11 +24,7 @@ export const renderLevel = async () => {
     renderLevelToUI(levelData);
 };
 
-/**
- * Fetches level data from the GraphQL service
- * @param {string} token - Authentication token
- * @returns {Promise<number>} - User's level value
- */
+// Fetches level data from the GraphQL service
 async function fetchLevelData(token) {
     const response = await graphQLService.execute(QUERIES.USER_LEVEL, {}, token);
     
@@ -48,10 +41,7 @@ async function fetchLevelData(token) {
     }
 }
 
-/**
- * Renders level data to the UI
- * @param {number} level - User's level value
- */
+// Renders level data to the UI
 function renderLevelToUI(level) {
     const container = document.getElementById("level-info");
     
