@@ -24,11 +24,7 @@ export const renderTransactions = async () => {
     renderTransactionsToUI(transactionData);
 };
 
-/**
- * Fetches transaction data from the GraphQL service
- * @param {string} token - Authentication token
- * @returns {Promise<Array>} - Array of transaction objects
- */
+// Fetches transaction data from the GraphQL service
 async function fetchTransactionData(token) {
     let data = [];
     
