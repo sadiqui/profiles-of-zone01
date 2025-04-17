@@ -26,8 +26,8 @@
 }
 
 * {
-    padding: 0;
     margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -81,7 +81,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 0.875rem;
 }
 
-#no-script {
+.warning {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -89,7 +89,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 100vh;
 }
 
-#no-script > div {
+.warning > div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -103,7 +103,7 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: var(--card-shadow);
 }
 
-#no-script > div p {
+.warning > div p {
     font-size: 15px;
     display: inline-block;
     width: 100%;

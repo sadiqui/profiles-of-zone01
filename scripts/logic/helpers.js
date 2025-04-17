@@ -5,9 +5,26 @@
 // Display an error message in the specified element
 export const displayError = (elementId, message) => {
     const errorElement = document.getElementById(elementId);
-    if (errorElement) {
-        errorElement.textContent = message;
+    if (errorElement) errorElement.textContent = message;
+};
+
+// Check if on mobile, if yes deliver a warning
+export const showMobileWarning = () => {
+    function isMobileDevice() {
+        const isMobileWidth = window.innerWidth < 600;
+        const isMobileAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        return isMobileWidth && isMobileAgent;
     }
+
+    const mobileWarning = document.getElementById('mobile-warning');
+
+    if (isMobileDevice() && mobileWarning) {
+        mobileWarning.style.display = 'block';
+        mobileWarning.style.display = 'flex';
+        return true; // Warning shown
+    }
+
+    return false; // No warning needed
 };
 
 /*******************************************************
