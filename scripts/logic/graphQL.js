@@ -25,6 +25,7 @@ export const graphQLService = {
 
 // GraphQL query definitions
 export const QUERIES = {
+  // Basic
   USER_PROFILE: `{
     user {
       firstName
@@ -32,6 +33,7 @@ export const QUERIES = {
     }
   }`,
   
+  // With Arguments (_and, _eq, and object nesting)
   USER_LEVEL: `{
     transaction(
       where: {
@@ -47,6 +49,7 @@ export const QUERIES = {
     }
   }`,
   
+  // Nested (user → transactions → object → name)
   USER_TRANSACTIONS: `{
     user {
       transactions(
@@ -61,7 +64,8 @@ export const QUERIES = {
       }
     }
   }`,
-  
+
+  // with Arguments (_nin)
   USER_SKILLS: `{
     user {
       transactions(
@@ -72,7 +76,8 @@ export const QUERIES = {
       }
     }
   }`,
-  
+
+  // With Arguments ($name, _eq, ordering)
   USER_PROGRESS: `
   query GetTransactions($name: String!) {
     event(where: { object: { name: { _eq: $name } } }) {
@@ -100,6 +105,9 @@ export const QUERIES = {
     }
   }`,
   
+  // Nested (user → audits_aggregate → aggregate → count)
+  // with Aggregation (audits_aggregate)
+  // with Aliases (failed_audits)
   USER_AUDITS: `{
     user {
       auditRatio
