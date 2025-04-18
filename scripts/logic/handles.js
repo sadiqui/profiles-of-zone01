@@ -21,13 +21,6 @@ export const authService = {
       }
     });
 
-    // Clear sensitive data from memory when done
-    setTimeout(() => {
-      encodedAuth = null;
-      // Laverage garbage collection
-      if (global.gc) global.gc();
-    }, 0);
-
     return response.json();
   }
 };
