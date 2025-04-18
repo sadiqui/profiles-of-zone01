@@ -15,9 +15,18 @@ export const authService = {
     const response = await fetch(API.SIGNIN_ENDPOINT, {
       method: 'POST',
       headers: {
-        Authorization: `Basic ${encodedAuth}`
+        Authorization: `Basic ${encodedAuth}`,
+        'Cache-Control': 'no-store',
+        'Pragma': 'no-cache' // Prevent caching
       }
     });
+
+    // Clear sensitive data from memory when done
+    setTimeout(() => {
+      encodedAuth = null;
+      // Laverage garbage collection
+      if (global.gc) global.gc();
+    }, 0);
 
     return response.json();
   }
@@ -86,8 +95,11 @@ export const initProfile = async () => {
 
     renderProfileView(userData[0]);
   } catch (error) {
-    // Handle JWT expiration separately
-    if (typeof error === "string" && error.includes('JWTExpired')) {
+    // Handle session/auth-related errors
+    if (
+      typeof error === "string" &&
+      /(JWTExpired|JWTInvalid|InvalidToken|JWSError|TokenNotProvided|Unauthorized)/i.test(error)
+    ) {
       logout();
       return;
     }
