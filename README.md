@@ -27,4 +27,4 @@ This GraphQL thingy was made by **[Sadiqui](https://github.com/sadiqui)** (yes, 
 | JWT                | Handling user authentication securely              |
 | SVG                | Drawing those shiny interactive graphs             |
 | Font Awesome       | For icons that speak louder than words             |
-| GitHUb Pages       | Hosting the whole thing online                     |
+| Netlify            | Hosting the whole thing online                     |

@@ -69,7 +69,8 @@ export const QUERIES = {
   USER_SKILLS: `{
     user {
       transactions(
-        where: { type: { _nin: ["xp", "level", "up", "down"] } }
+        # where: { type: { _nin: ["xp", "level", "up", "down"] } }
+        where: { type: { _like: "skill_%" } }
       ) {
         type
         amount
