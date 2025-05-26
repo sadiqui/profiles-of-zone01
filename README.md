@@ -1,6 +1,9 @@
 <h2 align="center">
 <a href="https://graphql-01.netlify.app/">
-GraphQL 01</a></h2>
+GraphQL 01</a> + 
+<small><a href="https://graphql-01.netlify.app/graphiql">
+(Groundplay)</a></small>
+</h2>
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d8fc3fb5-5691-4d2e-8fa2-ae5d043f517f/deploy-status)](https://app.netlify.com/sites/graphql-01/deploys)
 

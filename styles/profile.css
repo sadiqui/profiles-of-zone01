@@ -219,6 +219,14 @@
     color: var(--text-color);
 }
 
+.rank {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--text-color-secondary);
+    font-weight: 500;
+    font-size: 1rem;
+}
+
 #last-transactions-info {
     border-radius: var(--card-radius);
     overflow: hidden;
